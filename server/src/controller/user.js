@@ -16,28 +16,24 @@ const userRegister = async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  
-    const user = new Userschema({
-      username: username,
-      password: hashedPassword,
-      name: name,
-      email: email,
-    })
-   
-   
+  const user = new Userschema({
+    username: username,
+    password: hashedPassword,
+    name: name,
+    email: email,
+  });
+
   try {
     await user.save();
     res.json({ message: "User account registered successfully", user });
   } catch (err) {
-
     res.status(500).json({
       status: "failure",
       message: "something went wrong",
       error_message: err.message,
     });
-  }  
+  }
 };
-
 
 const updateUser = async (req, res) => {
   const updatedProduct = await Userschema.findByIdAndUpdate(
@@ -52,10 +48,6 @@ const updateUser = async (req, res) => {
     res.status(404).json({ error: "Product not found" });
   }
 };
-
-
-
-
 
 // Define a route for updating a user
 
@@ -80,7 +72,6 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
 const userlogin = async (req, res) => {
   const { error, value } = validate.userValidate.validate(req.body);
   if (error) {
@@ -94,14 +85,14 @@ const userlogin = async (req, res) => {
       return res.status(401).json({ error: "Invalid username" });
     }
     if (!(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ error: "Invalid password"});
+      return res.status(401).json({ error: "Invalid password" });
     }
     const token = jwt.sign({ username: user.username }, "user");
 
-    res.json({ message: "Login successful", token ,id:user._id});
+    res.json({ message: "Login successful", token, id: user._id });
   } catch (err) {
     res.status(500).json({
-      status: "failure", 
+      status: "failure",
       message: "something went wrong",
       error_message: err.message,
     });
@@ -109,16 +100,16 @@ const userlogin = async (req, res) => {
 };
 
 const addToCart = async (req, res) => {
-  const productId = req.body.productId;
-  const userId = req.params.id;
- console.log(productId);
- 
+  const { productId,quantity } = req.body;
+  const { id: userId } = req.params;
+console.log("hiii");
 
   try {
-    const user = await Userschema.findById(userId);
+    // Find user and product
+    const user = await User.findById(userId).populate("cart.product");
     const product = await Productschema.findById(productId);
 
-    if (!user) {
+    if (!user) { 
       return res.status(404).json({ error: "User not found" });
     }
 
@@ -126,64 +117,103 @@ const addToCart = async (req, res) => {
       return res.status(404).json({ error: "Product not found" });
     }
 
+    const cartItem = user.cart.find((item) => item.product.equals(productId));
 
-    if (user.cart.some(cartItem => cartItem._id.equals(product._id))) {
-      return res.status(400).json({ error: "Product already in cart" });
+    if (cartItem) {
+      res.status(200).json({ message: "Item already in the cart" });
+    } else {
+      user.cart.push({ product: productId, quantity: quantity || 1 });
+      await user.save();
+      res.status(201).json({ message: "Item added to cart" });
     }
-
-
-    user.cart.push(product);
-    await user.save();
-
-    return res.status(200).json({ message: "Product added to cart" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
 
-const deleteFromCart = async (req, res) => {
-  const userId = req.params.userId;
-  const productId = req.params.id;
 
-  console.log(productId);
-  const user = await Userschema.findById(userId);
-
-  if (!user) {
-    res.status(404).json({ error: "User not found" });
-  }
-
-  const productIndex = user.cart.findIndex(
-    (product) => product._id.toString() === productId
-  );
-
-  if (productIndex === -1) {
-    res.status(404).json({ error: "Product not found in wishlist" });
-  }
-  user.cart.splice(productIndex, 1);
-  await user.save();
-  res.json({ message: "Product removed from wishlist" });
-};
-
+  const updateCartQuantity = async (req, res) => {
+    const { productId, action } = req.body;
+    const { id: userId } = req.params;
+    console.log(req.body);
+    try {
+      const user = await User.findById(userId);
+      
+      
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      const cartItem = user.cart.find((item) => item.product.equals(productId));
+      if (!cartItem) {
+        return res.status(404).json({ error: "Item not in cart" });
+      }
+  
+      if (action === "increment") {
+        cartItem.quantity += 1;
+      } else if (action === "decrement" && cartItem.quantity > 1) {
+        cartItem.quantity -= 1;
+      }
+  
+      await user.save();
+      res.status(200).json(user.cart);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+  
 
 const getCartByUserId = async (req, res) => {
-  const user = await Userschema.findById(req.params.id)
-const products=[...user.cart].map((item)=>{
-return item.product
-})
-
-console.log(products);
+  const user = await Userschema.findById(req.params.id).populate("cart.product");
 
   if (user) {
     res.json(user.cart);
   } else {
     res.status(404).json({ error: "User not found" });
-  } 
+  }   
 }; 
 
+const mongoose = require('mongoose');
+
+const deleteFromCart = async (req, res) => {
+    const userId = req.params.userId;
+    const productId = req.params.id;
+
+    try {
+        const user = await Userschema.findById(userId).populate("cart.product");
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Convert productId to ObjectId for comparison
+        const productObjectId =new mongoose.Types.ObjectId(productId);
+
+        const productIndex = user.cart.findIndex(
+            (product) => product.product._id.toString() === productObjectId.toString()
+        );
+        
+
+        if (productIndex === -1) {
+            return res.status(404).json({ error: "Product not found in cart" });
+        }
+
+        // Remove the product from the cart
+        user.cart.splice(productIndex, 1);
+        await user.save();
+
+        res.json({ message: "Product removed from cart" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "An error occurred while processing your request" });
+    }
+};
 
 
-  
+
+
 const addToWishlist = async (req, res) => {
   const userId = req.params.id;
   const productId = req.body.productId;
@@ -202,7 +232,6 @@ const addToWishlist = async (req, res) => {
   user.wishlist.push(product);
   await user.save();
 
- 
   res.json({ message: "Product added to wishlist" });
 };
 
@@ -210,7 +239,6 @@ const getWishlistByUserId = async (req, res) => {
   const user = await Userschema.findById(req.params.id).populate("wishlist");
 
   if (user) {
-  
   } else {
     res.status(404).json({ error: "User not found" });
   }
@@ -239,7 +267,7 @@ const deleteFromWishlist = async (req, res) => {
 };
 const payment = async (req, res) => {
   const userId = req.params.id;
-  const user = await Userschema.findById(userId).populate("cart");
+  const user = await Userschema.findById(userId).populate("cart.product");
   if (!user) {
     res.json({
       status: "failure",
@@ -251,18 +279,18 @@ const payment = async (req, res) => {
       message: "User cart is empty, please add some products",
     });
   }
+  console.log(user.cart);
   let totalSum = user.cart.reduce((sum, item) => {
-   return sum + item.price;
+    return sum + item.product.price;
   }, 0);
-  console.log(totalSum);
+ 
 
   if (isNaN(totalSum)) {
-
     res.json({
       status: "failure",
-      message: "Invalid total sum",
+      message: "Invalid total sum", 
     });
-  } 
+  }
 
   let metadata = "Thank you for purchasing from us, see you soon";
   const session = await stripe.checkout.sessions.create({
@@ -289,7 +317,7 @@ const payment = async (req, res) => {
     metadata: {
       script: metadata,
     },
-  }) ;
+  });
 
   res.json({ paymentUrl: session.url, paymentId: session.id });
 
@@ -313,5 +341,6 @@ module.exports = {
   payment,
   deleteUser,
   updateUser,
-  deleteFromCart
+  deleteFromCart,
+  updateCartQuantity
 };

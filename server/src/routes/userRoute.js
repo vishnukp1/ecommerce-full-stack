@@ -8,6 +8,7 @@ const {
   deleteFromWishlist,
   payment,
   deleteFromCart,
+  updateCartQuantity,
 } = require("../controller/user");
 cons = require("../middleware/userAuth");
 const {
@@ -38,6 +39,9 @@ router.get(
 router.get("/api/users/:id/cart", trycatch(getCartByUserId));
 
 router.post("/api/users/:id/cart", trycatch(addToCart));
+
+router.patch("/api/users/:id/cart", updateCartQuantity);
+
 
 router.delete("/api/users/:userId/deleteCart/:id", trycatch(deleteFromCart));
 

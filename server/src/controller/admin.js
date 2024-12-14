@@ -9,7 +9,7 @@ const loginAdmin = async (req, res) => {
     return res.status(400).json({ message: error.details[0].message });
   }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
   const { username, password } = value;
-  const usernameenv = process.env.adminUserName;
+  const usernameenv = process.env.adminUserName;  
   const passwordenv = process.env.adminPassword;
 
   if (username !== usernameenv || password !== passwordenv) {
@@ -28,7 +28,7 @@ const getAllUsers = async (req, res) => {
 
   res.json(users);
 };
-
+ 
 const getUserById = async (req, res) => {
   const user = await Userschema.findById(req.params.id);
 

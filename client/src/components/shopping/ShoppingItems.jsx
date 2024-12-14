@@ -17,19 +17,22 @@ const ShoppingItems = ({ item }) => {
   // Add to Cart Handler
   const addToCart = async (productId) => {
     try {
-      const userId = localStorage.getItem("userId"); // Assuming user ID is stored in localStorage
+      const userId = localStorage.getItem("userId"); 
       if (!userId) {
         toast.error("Please log in to add items to your cart.");
         return;
       }
 
-      const response = await axios.post(`/cart/${userId}`, {
+      const response = await axios.post(`http://localhost:3002/api/users/${userId}/cart`, {
         productId,
-        quantity: 1, // Default quantity as 1
+        quantity: 1, 
       });
+      
+       console.log(response.data.message);
+       
 
       if (response.status === 200) {
-        toast.success("Item added to cart successfully!");
+        toast.success(response.data.message);
       } else {
         toast.error("Failed to add item to cart.");
       }
@@ -38,6 +41,8 @@ const ShoppingItems = ({ item }) => {
       toast.error("An error occurred while adding the item to your cart.");
     }
   };
+
+  
 
   return (
     <div className="mb-10 pt-6 bg-slate-50">
@@ -59,7 +64,7 @@ const ShoppingItems = ({ item }) => {
             </div>
             <div className="text-center mt-1">
               <button
-                onClick={() => addToCart(data.id)}
+                onClick={() => addToCart(data._id)}
                 className="bg-blue-50 text-gray-800 hover:bg-blue-300 py-2 px-4 rounded-md shadow-md transition-colors duration-300"
               >
                 Add To Cart
