@@ -58,7 +58,7 @@ const ShoppingItems = ({ item }) => {
             />
             <div className="leading-7 mt-4 flex justify-between items-center">
               <div>
-                <h2 className="font-semibold text-lg">{data.name}</h2>
+                <h2 className="font-semibold text-lg">{data.title}</h2>
                 <h2 className="font-bold text-xl text-primary">${data.price}</h2>
               </div>
             </div>

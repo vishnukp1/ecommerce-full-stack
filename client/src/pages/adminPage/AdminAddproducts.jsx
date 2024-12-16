@@ -20,7 +20,7 @@ function AdminAddproducts() {
       .then((response) => console.log(response.data))
       .catch((error) => {
         console.error("Error fetching customer data:", error);
-        // Handle the error, show an error message, etc.
+     
       });
 
     formRef.current.reset();

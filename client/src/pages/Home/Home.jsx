@@ -20,7 +20,7 @@ const Home = () => {
   }, []);
   return (
     <div>
-      <Navbar />
+    
       <MainCarousel />
       <Productss />
       <CarouselItem />

@@ -57,13 +57,13 @@ function AdminUser() {
                     <div className="flex space-x-2 justify-center">
                       <button
                         onClick={() => deleteData(post._id)}
-                        className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700"
+                        className="text-sm px-3 py-1 border border-gray-800 rounded hover:bg-gray-800 hover:text-white"
                       >
                         Delete
                       </button>
                       <button
                         onClick={() => navigate(`/adminpage/edit-user/${post._id}`)}
-                        className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+                        className="text-sm px-3 py-1 border border-gray-800 rounded hover:bg-gray-800 hover:text-white"
                       >
                         Update
                       </button>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import axios from "axios";
 
 const CartPage = () => {
@@ -7,7 +7,7 @@ const CartPage = () => {
 
   const userId = localStorage.getItem("userId");
 
-  // Fetch cart items from the backend
+
   const fetchCart = async () => {
     try {
     
@@ -17,7 +17,6 @@ const CartPage = () => {
       );
       setCart(response.data);
 
-      // Calculate total price based on quantity
       updateTotalPrice(response.data);
     } catch (error) {
       console.error("Error fetching cart:", error);
@@ -28,7 +27,7 @@ const CartPage = () => {
     fetchCart();
   }, [userId]);
 
-  // Update total price function
+
   const updateTotalPrice = (cartItems) => {
     const total = cartItems.reduce(
       (sum, item) => sum + item.product.price * item.quantity,
@@ -37,7 +36,7 @@ const CartPage = () => {
     setTotalPrice(total);
   };
 
-  // Update quantity
+
   const updateQuantity = async (productId, action) => {
     try {
       await axios.patch(
@@ -45,7 +44,7 @@ const CartPage = () => {
         { productId, action }
       );
 
-      // Re-fetch the cart to ensure UI is updated
+  
       fetchCart();
     } catch (error) {
       console.error("Error updating quantity:", error);
@@ -57,18 +56,18 @@ const CartPage = () => {
       await axios.delete(
         `http://localhost:3002/api/users/${userId}/deleteCart/${productId}`
       );
-      fetchCart(); // Re-fetch the cart after deletion
+      fetchCart(); 
     } catch (error) {
       console.error("Error deleting product from cart:", error);
     }
   };
-    // Handle payment process 
+
   const handlePayment = async () => {
     try {
       const response = await axios.post(
         `http://localhost:3002/api/payment/${userId}`
       );
-      window.location.href = response.data.paymentUrl; // Redirect to Stripe payment page
+      window.location.href = response.data.paymentUrl; 
     } catch (error) {
       console.error("Error processing payment:", error);
     }
@@ -106,7 +105,7 @@ const CartPage = () => {
                             onClick={() =>
                               updateQuantity(item.product._id, "decrement")
                             }
-                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded"
+                            className="text-sm border border-gray-800  hover:bg-gray-800 hover:text-white text-gray-800 font-bold py-1 px-3 rounded"
                             disabled={item.quantity === 1}
                           >
                             -
@@ -118,7 +117,7 @@ const CartPage = () => {
                             onClick={() =>
                               updateQuantity(item.product._id, "increment")
                             }
-                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded"
+                            className="text-sm border border-gray-800  hover:bg-gray-800 hover:text-white text-gray-800 font-bold py-1 px-3 rounded"
                           >
                             +
                           </button>
@@ -131,7 +130,7 @@ const CartPage = () => {
                       </p>
                       <button
                         onClick={() => deleteFromCart(item.product._id)}
-                        className="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded"
+                        className="text-sm px-3 py-1 border border-gray-800 rounded hover:bg-gray-800 hover:text-white"
                       >
                         Delete
                       </button>
@@ -146,7 +145,7 @@ const CartPage = () => {
                 </h2>
                 <button
                   onClick={handlePayment}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg shadow"
+                  className="bg-blue-400 hover:bg-blue-500 text-white font-medium py-2 px-6 rounded-lg shadow"
                 >
                   Proceed to Payment
                 </button>

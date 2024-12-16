@@ -8,7 +8,7 @@ export default function CarouselItem() {
 
   const handleResize = () => {
     const windowWidth = window.innerWidth;
-    if (windowWidth < 768) { // You can adjust this value based on your breakpoint
+    if (windowWidth < 768) { 
       setSlidesToShow(2);
     } else {
       setSlidesToShow(4);

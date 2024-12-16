@@ -1,6 +1,5 @@
 import ShoppingItems from '../../components/shopping/ShoppingItems'
-import Navbar from '../../components/Navbar/Navbar'
-import { items } from '../../data/CartItems'
+
 import Footer from '../../components/Footer/Footer'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -11,14 +10,14 @@ const Electronics = () => {
 
   const getCustomersData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3002/api/products/category/toys`);
+      const response = await axios.get(`http://localhost:3002/api/products/category/electronic`);
       const responseData = response.data;
   
       console.log(responseData);
       setToys(responseData);
     } catch (error) {
       console.error("Error fetching customer data:", error);
-      // Handle the error, show an error message, etc.
+     
     }
   };
 
@@ -27,7 +26,7 @@ const Electronics = () => {
   }, []);
   return (
     <div>
-         <Navbar />
+      
          <div className="text-center mb-10 max-w-[87.5rem] mx-auto">
   <p data-aos="fade-up" className="text-lg text-primary mt-5">
     Top Selling Gadgets for you

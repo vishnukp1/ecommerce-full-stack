@@ -62,7 +62,15 @@ const getProductsByCategory = async (req, res) => {
   }
 };
 
+const searchStock = async (req, res) => {
+  const name = req.query.name;
+ 
+  const regex = new RegExp(name, "i");
 
+  const users = await Productschema.find({ title: { $regex: regex } });
+
+  res.status(404).json(users);
+};
 
 module.exports = {
   createProduct,
@@ -71,4 +79,5 @@ module.exports = {
   deleteProduct,
   updateProduct,
   getProductsByCategory,
+  searchStock
 };

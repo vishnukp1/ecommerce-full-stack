@@ -102,10 +102,9 @@ const userlogin = async (req, res) => {
 const addToCart = async (req, res) => {
   const { productId,quantity } = req.body;
   const { id: userId } = req.params;
-console.log("hiii");
 
   try {
-    // Find user and product
+
     const user = await User.findById(userId).populate("cart.product");
     const product = await Productschema.findById(productId);
 
@@ -124,7 +123,7 @@ console.log("hiii");
     } else {
       user.cart.push({ product: productId, quantity: quantity || 1 });
       await user.save();
-      res.status(201).json({ message: "Item added to cart" });
+      res.status(200).json({ message: "Item added to cart" });
     }
   } catch (error) {
     console.error(error);
@@ -188,7 +187,6 @@ const deleteFromCart = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        // Convert productId to ObjectId for comparison
         const productObjectId =new mongoose.Types.ObjectId(productId);
 
         const productIndex = user.cart.findIndex(
@@ -200,7 +198,6 @@ const deleteFromCart = async (req, res) => {
             return res.status(404).json({ error: "Product not found in cart" });
         }
 
-        // Remove the product from the cart
         user.cart.splice(productIndex, 1);
         await user.save();
 
@@ -329,6 +326,7 @@ const payment = async (req, res) => {
   user.cart = [];
   await user.save();
 };
+
 
 module.exports = {
   userRegister,

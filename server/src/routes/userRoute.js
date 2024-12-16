@@ -15,6 +15,7 @@ const {
   getProductsByCategory,
   getAllProducts,
   getProductById,
+  searchStock,
 } = require("../controller/product");
 
 const trycatch = require("../middleware/trycatchp");
@@ -58,5 +59,7 @@ router.delete(
 );
 
 router.post("/api/payment/:id", trycatch(payment));
+
+router.get("/api/stock/:name", trycatch(searchStock));
 
 module.exports = router;
