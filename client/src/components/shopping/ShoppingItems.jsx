@@ -1,7 +1,7 @@
 import React from "react";
 import Aos from "aos";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { Axios } from "../../api/Aiox";
 
 const ShoppingItems = ({ item }) => {
   React.useEffect(() => {
@@ -23,7 +23,7 @@ const ShoppingItems = ({ item }) => {
         return;
       }
 
-      const response = await axios.post(`http://localhost:3002/api/users/${userId}/cart`, {
+      const response = await Axios.post(`/api/users/${userId}/cart`, {
         productId,
         quantity: 1, 
       });

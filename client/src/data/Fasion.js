@@ -11,14 +11,14 @@ export const items = [
   {
     id: 1,
     image: item1,
-    name: "Ceramic Table Vase",
+    title: "Ceramic Table Vase",
     price: 79.99,
     aosDelay: "400",
   },
   {
     id: 2,
     image: item2,
-    name: "Scissor Humidifier",
+    title: "Scissor Humidifier",
     price: 4.3,
     
     aosDelay: "400",
@@ -26,7 +26,7 @@ export const items = [
   {
     id: 3,
     image: item3,
-    name: "Bookends Humidifier",
+    title: "Bookends Humidifier",
     price: 15,
     
     aosDelay: "400",
@@ -34,31 +34,31 @@ export const items = [
   {
     id: 4,
     image: item4,
-    name: "Wall Clock",
+    title: "Wall Clock",
     price: 58.33,
   },
   {
     id: 5,
     image: item5,
-    name: "Beoit 17 dress",
+    title: "Beoit 17 dress",
     price: 12.55,
   },
   {
     id: 6,
     image: item6,
-    name: "Aumeo Audio",
+    title: "Aumeo Audio",
     price: 368.66,
   },
   {
     id: 7,
     image: item7,
-    name: "Bottle Humidifier",
+    title: "Bottle Humidifier",
     price: 15,
   },
   {
     id: 8,
     image: item8,
-    name: "Grey Watch good",
+    title: "Grey Watch good",
     price: 77.99,
   },
  

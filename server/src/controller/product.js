@@ -2,7 +2,13 @@ const Productschema = require("../models/Productschema");
 
 const createProduct = async (req, res) => {
   const { title, description, price, image, category } = req.body;
-  const newProduct = await Productschema.create({ title, description, price, image, category });
+  const newProduct = await Productschema.create({
+    title,
+    description,
+    price,
+    image,
+    category,
+  });
 
   res.status(201).json({
     status: "success",
@@ -14,10 +20,10 @@ const getAllProducts = async (req, res) => {
   const Products = await Productschema.find();
   res.json({
     status: "success",
-    
+
     data: Products,
   });
-}; 
+};
 
 const getProductById = async (req, res) => {
   const Product = await Productschema.findById(req.params.id);
@@ -63,13 +69,15 @@ const getProductsByCategory = async (req, res) => {
 };
 
 const searchStock = async (req, res) => {
-  const name = req.query.name;
- 
+  const name = req.params.name;
+
+
+
   const regex = new RegExp(name, "i");
 
-  const users = await Productschema.find({ title: { $regex: regex } });
-
-  res.status(404).json(users);
+  const products = await Productschema.find({ title: { $regex: regex } });
+  
+  res.status(200).json(products);
 };
 
 module.exports = {
@@ -79,5 +87,5 @@ module.exports = {
   deleteProduct,
   updateProduct,
   getProductsByCategory,
-  searchStock
+  searchStock,
 };

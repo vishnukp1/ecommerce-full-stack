@@ -1,5 +1,5 @@
 import  { useState, useEffect } from "react";
-import axios from "axios";
+import { Axios } from "../../api/Aiox";
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
@@ -12,8 +12,8 @@ const CartPage = () => {
     try {
     
       
-      const response = await axios.get(
-        `http://localhost:3002/api/users/${userId}/cart`
+      const response = await Axios.get(
+        `/api/users/${userId}/cart`
       );
       setCart(response.data);
 
@@ -39,8 +39,8 @@ const CartPage = () => {
 
   const updateQuantity = async (productId, action) => {
     try {
-      await axios.patch(
-        `http://localhost:3002/api/users/${userId}/cart`,
+      await Axios.patch(
+        `/api/users/${userId}/cart`,
         { productId, action }
       );
 
@@ -53,8 +53,8 @@ const CartPage = () => {
 
   const deleteFromCart = async (productId) => {
     try {
-      await axios.delete(
-        `http://localhost:3002/api/users/${userId}/deleteCart/${productId}`
+      await Axios.delete(
+        `/api/users/${userId}/deleteCart/${productId}`
       );
       fetchCart(); 
     } catch (error) {
@@ -64,8 +64,8 @@ const CartPage = () => {
 
   const handlePayment = async () => {
     try {
-      const response = await axios.post(
-        `http://localhost:3002/api/payment/${userId}`
+      const response = await Axios.post(
+        `/api/payment/${userId}`
       );
       window.location.href = response.data.paymentUrl; 
     } catch (error) {
