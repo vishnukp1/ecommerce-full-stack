@@ -49,13 +49,12 @@ const updateUser = async (req, res) => {
   }
 };
 
-// Define a route for updating a user
+
 
 const deleteUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Find and remove the user by their username
     const user = await Userschema.findByIdAndDelete(id);
 
     if (!user) {

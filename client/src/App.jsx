@@ -31,7 +31,7 @@ function App() {
       {admin ? null : <Navbar/>}
       <Routes>
     
-      <Route exact path="/signin" element={<Register />} />
+      <Route exact path="/signup" element={<Register />} />
       <Route exact path="/login" element={<Login />} />
       <Route exact path="/cart" element={<Cart/>} />
         <Route exact path="/" element={<Home />} />

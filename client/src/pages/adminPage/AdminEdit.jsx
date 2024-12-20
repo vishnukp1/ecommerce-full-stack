@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { Axios } from "../../api/Aiox";
 
 const AdminEdit = () => {
   const navigate = useNavigate();
@@ -22,8 +22,8 @@ const AdminEdit = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3002/api/admin/products/${id}`
+        const response = await Axios.get(
+          `/api/admin/products/${id}`
         );
         setData(response.data);
       } catch (error) {
@@ -36,8 +36,8 @@ const AdminEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3002/api/admin/products/${id}`, {
-        name: data.title,
+      await axios.put(`/api/admin/products/${id}`, {
+        title: data.title,
         image: data.image,
         price: data.price,
         category: data.category,

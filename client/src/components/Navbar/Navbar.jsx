@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
@@ -21,17 +21,28 @@ function classNames(...classes) {
 export default function Navbar() {
   const { setSearchResults } = useSearchContext();
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const navigate = useNavigate();
+
+  useEffect(() => {
+
+    const token = localStorage.getItem("userId");
+    setIsLoggedIn(!!token); 
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    navigate("/login"); }
 
   const handleSearch = async () => {
     if (!searchTerm) return;
     try {
-      const response = await axios.get(`http://localhost:3002/api/stock/${searchTerm}`);
+      const response = await axios.get(
+        `http://localhost:3002/api/stock/${searchTerm}`
+      );
 
-      setSearchResults(response.data)
-      
- 
+      setSearchResults(response.data);
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
@@ -97,9 +108,8 @@ export default function Navbar() {
                   </button>
                 </div>
               </div>
-             
 
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
                   type="button"
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -131,7 +141,7 @@ export default function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
+                      {/* <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
@@ -143,33 +153,36 @@ export default function Navbar() {
                             Your Profile
                           </a>
                         )}
-                      </Menu.Item>
-
+                      </Menu.Item> */}
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                        
+                            onClick={
+                              isLoggedIn
+                                ? handleLogout
+                                : () => navigate("/login")
+                            }
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
-                            Sign out
+                            {isLoggedIn ? "Sign out" : "Sign in"}
                           </a>
                         )}
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
                 </Menu>
-                  <div
-              className="w-14 h-5rounded-sm ml-10 text-slate-300"
-              onClick={() => navigate("/adminpage/adminproduct")}
-            >
-              Admin
-            </div>
+                <div
+                  className="w-14 h-5rounded-sm ml-10 text-slate-300"
+                  onClick={() => navigate("/adminpage/adminproduct")}
+                >
+                  Admin
+                </div>
               </div>
             </div>
-           
           </div>
         </>
       )}

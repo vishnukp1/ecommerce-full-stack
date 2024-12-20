@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Axios } from "../../api/Aiox";
 
 function AdminProduct() {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ function AdminProduct() {
 
   const getProductsData = async () => {
     try {
-      const response = await axios.get("http://localhost:3002/api/admin/products");
+      const response = await Axios.get("/api/admin/products");
       const responseData = response.data;
       setState(responseData.data);
     } catch (error) {
@@ -18,7 +18,7 @@ function AdminProduct() {
 
   const deleteData = async (id) => {
     try {
-      await axios.delete(`http://localhost:3002/api/admin/products/${id}`);
+      await Axios.delete(`/api/admin/products/${id}`);
       getProductsData();
     } catch (error) {
       console.error("Error deleting customer data:", error);

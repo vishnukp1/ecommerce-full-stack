@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-
-import axios from "axios";
+import {  useEffect, useState } from "react";
+import { Axios } from "../../api/Aiox";
 import { useNavigate } from "react-router-dom";
 
 function AdminUser() {
@@ -10,7 +9,7 @@ function AdminUser() {
 
   const getCustomersData = async () => {
     try {
-      const response = await axios.get("http://localhost:3002/api/admin/users");
+      const response = await Axios.get("/api/admin/users");
       setCustomersData(response.data);
     } catch (error) {
       console.error("Error fetching customer data:", error);
@@ -19,7 +18,7 @@ function AdminUser() {
 
   const deleteData = async (id) => {
     try {
-      await axios.delete(`http://localhost:3002/api/delete-user/${id}`);
+      await Axios.delete(`/api/delete-user/${id}`);
       getCustomersData();
     } catch (error) {
       console.error("Error deleting customer data:", error);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { Axios } from "../../api/Aiox";
 
 const EditUser = () => {
   const navigate = useNavigate();
@@ -21,8 +21,8 @@ const EditUser = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3002/api/admin/users/${id}`
+        const response = await Axios.get(
+          `/api/admin/users/${id}`
         );
         setData(response.data);
       } catch (error) {
@@ -37,7 +37,7 @@ const EditUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3002/api/update-user/${id}`, {
+      await Axios.put(`/api/update-user/${id}`, {
         name: data.name,
         username: data.username,
         email: data.email,

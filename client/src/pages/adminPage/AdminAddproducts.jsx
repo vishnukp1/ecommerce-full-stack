@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import axios from "axios";
+import { Axios } from "../../api/Aiox";
 
 function AdminAddproducts() {
   const formRef = useRef(null);
@@ -15,8 +15,8 @@ function AdminAddproducts() {
       description: formRef.current.description.value,
     };
 
-    await axios
-      .post(`http://localhost:3002/api/admin/products`, items)
+    await Axios
+      .post(`/api/admin/products`, items)
       .then((response) => console.log(response.data))
       .catch((error) => {
         console.error("Error fetching customer data:", error);
