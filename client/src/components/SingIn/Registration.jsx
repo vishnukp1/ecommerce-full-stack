@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Axios } from "../../api/Aiox";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3002/api/users/register", formData);
+      await Axios.post("/api/users/register", formData);
       alert("Registration successful!");
     } catch (error) {
       alert("Error: " + error.response?.data.message);
