@@ -11,7 +11,7 @@ const EditUser = () => {
     email: "",
   });
 
-  // Handle input changes
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prevState) => ({ ...prevState, [name]: value }));
@@ -21,9 +21,7 @@ const EditUser = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await Axios.get(
-          `/api/admin/users/${id}`
-        );
+        const response = await Axios.get(`/api/admin/users/${id}`);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -33,7 +31,7 @@ const EditUser = () => {
     fetchUserData();
   }, [id]);
 
-  // Submit updated user data
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

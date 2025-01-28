@@ -11,9 +11,7 @@ const BabyProducts = () => {
 
   const getCustomersData = async () => {
     try {
-      const response = await Axios.get(
-        `/api/products/category/dress`
-      );
+      const response = await Axios.get(`/api/products/category/dress`);
       const responseData = response.data;
       setDress(responseData);
     } catch (error) {

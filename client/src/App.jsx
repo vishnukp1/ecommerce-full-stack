@@ -28,31 +28,23 @@ function App() {
   }, [location]);
   return (
     <>
-      {admin ? null : <Navbar/>}
+      {admin ? null : <Navbar />}
       <Routes>
-    
-      <Route exact path="/signup" element={<Register />} />
-      <Route exact path="/login" element={<Login />} />
-      <Route exact path="/cart" element={<Cart/>} />
+        <Route exact path="/signup" element={<Register />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/" element={<Home />} />
         <Route exact path="/electronics" element={<Electronics />} />
         <Route exact path="/fashion" element={<Fasion />} />
         <Route exact path="/babyproducts" element={<BabyProducts />} />
         <Route element={<Admin />}>
-        <Route path="/adminpage/adminedit/:id" element={<AdminEdit />} />
-            <Route path="/adminpage/adminproduct" element={<AdminProduct />} />
-            <Route path="/adminpage/adminuser" element={<AdminUser />} />
-            <Route path="/adminpage/edit-user/:id" element={<EditUser />} />
-            <Route
-              path="/adminpage/addproduct"
-              element={<AdminAddproducts />}
-            />
-      
-      
-   </Route>
-     
+          <Route path="/adminpage/adminedit/:id" element={<AdminEdit />} />
+          <Route path="/adminpage/adminproduct" element={<AdminProduct />} />
+          <Route path="/adminpage/adminuser" element={<AdminUser />} />
+          <Route path="/adminpage/edit-user/:id" element={<EditUser />} />
+          <Route path="/adminpage/addproduct" element={<AdminAddproducts />} />
+        </Route>
       </Routes>
-    
     </>
   );
 }
