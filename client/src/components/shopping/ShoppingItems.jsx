@@ -54,7 +54,7 @@ const ShoppingItems = ({ item }) => {
               data-aos="fade-in"
               src={data.image}
               alt={data.name}
-              className="h-[180px] w-[260px] object-cover rounded-md"
+              className="h-[180px] w-[260px] object-fill rounded-md"
             />
             <div className="leading-7 mt-4 flex justify-between items-center">
               <div>

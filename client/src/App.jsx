@@ -14,6 +14,7 @@ import AdminEdit from "./pages/adminPage/AdminEdit";
 import { useEffect, useState } from "react";
 import Admin from "./pages/adminPage/Admin";
 import Navbar from "./components/Navbar/Navbar";
+import ProductDetail from "./components/viewmore/ProductDetails";
 
 function App() {
   const location = useLocation();
@@ -37,6 +38,7 @@ function App() {
         <Route exact path="/electronics" element={<Electronics />} />
         <Route exact path="/fashion" element={<Fasion />} />
         <Route exact path="/babyproducts" element={<BabyProducts />} />
+           <Route path="/productdetails" element={<ProductDetail />} />
         <Route element={<Admin />}>
           <Route path="/adminpage/adminedit/:id" element={<AdminEdit />} />
           <Route path="/adminpage/adminproduct" element={<AdminProduct />} />

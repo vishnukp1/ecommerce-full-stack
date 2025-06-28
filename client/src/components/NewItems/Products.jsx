@@ -40,13 +40,13 @@ const ProductsData = [
     price: "220",
     aosDelay: "600",
   },
-  {
-    id: 5,
-    img: Img7,
-    title: "Goggles",
-    price: "320",
-    aosDelay: "400",
-  },
+  // {
+  //   id: 5,
+  //   img: Img7,
+  //   title: "Goggles",
+  //   price: "320",
+  //   aosDelay: "400",
+  // },
 ];
 const ProductsData2 = [
   {
@@ -77,13 +77,13 @@ const ProductsData2 = [
     price: "220",
     aosDelay: "600",
   },
-  {
-    id: 5,
-    img: Img6,
-    title: "Rocky Mountain",
-    price: "420",
-    aosDelay: "200",
-  },
+  // {
+  //   id: 5,
+  //   img: Img6,
+  //   title: "Rocky Mountain",
+  //   price: "420",
+  //   aosDelay: "200",
+  // },
  
 ];
 const Productss = () => {

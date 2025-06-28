@@ -262,68 +262,84 @@ const deleteFromWishlist = async (req, res) => {
   res.json({ message: "Product removed from wishlist" });
 };
 const payment = async (req, res) => {
-  const userId = req.params.id;
-  const user = await Userschema.findById(userId).populate("cart.product");
-  if (!user) {
-    res.json({
-      status: "failure",
-      message: "Please log in",
-    });
-  }
-  if (user.cart.length === 0) {
-    res.json({
-      message: "User cart is empty, please add some products",
-    });
-  }
-  console.log(user.cart);
-  let totalSum = user.cart.reduce((sum, item) => {
-    return sum + item.product.price;
-  }, 0);
- 
+  try {
+    const userId = req.params.id;
+    const user = await Userschema.findById(userId).populate("cart.product");
 
-  if (isNaN(totalSum)) {
-    res.json({
-      status: "failure",
-      message: "Invalid total sum", 
-    });
-  }
+    if (!user) {
+      return res.json({
+        status: "failure",
+        message: "Please log in",
+      });
+    }
 
-  let metadata = "Thank you for purchasing from us, see you soon";
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    line_items: [
-      {
-        price_data: {
-          currency: "inr",
-          product_data: {
-            name: "Sample Product",
-            description: "This is a sample product",
-            images: ["https://example.com/product-image.jpg"],
-          },
-          unit_amount: totalSum * 100, // Amount in rupees
+    if (user.cart.length === 0) {
+      return res.json({
+        message: "User cart is empty, please add some products",
+      });
+    }
+
+    // Create Stripe line_items based on actual cart
+    const line_items = user.cart.map((item) => ({
+      price_data: {
+        currency: "inr",
+        product_data: {
+          name: item.product.title,
+          description: item.product.description || "No description",
+          images: [item.product.image || ""],
         },
-        quantity: 1,
+        unit_amount: item.product.price * 100, // in paise
       },
-    ],
-    mode: "payment",
-    success_url:
-      "https://ruperhat.com/wp-content/uploads/2020/06/Paymentsuccessful21.png",
-    cancel_url:
-      "https://media.licdn.com/dms/image/C5112AQGiR7AdalYNjg/article-cover_image-shrink_600_2000/0/1582176281444?e=2147483647&v=beta&t=QVzBFLJpbDlQMX_H5iKXr7Jr1w6Pm60tOJb47rjpX6Q",
-    metadata: {
-      script: metadata,
-    },
-  });
+      quantity: item.quantity,
+    }));
 
-  res.json({ paymentUrl: session.url, paymentId: session.id });
+    const totalSum = user.cart.reduce(
+      (sum, item) => sum + item.product.price * item.quantity,
+      0
+    );
 
-  user.orders.push({
-    products: user.cart.length,
-    orderId: session.id,
-    totalAmount: totalSum,
-  });
-  user.cart = [];
-  await user.save();
+    if (isNaN(totalSum)) {
+      return res.json({
+        status: "failure",
+        message: "Invalid total sum",
+      });
+    }
+
+    // Stripe India compliance: require billing details
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items,
+      customer_creation: "always", // ✅ Forces Stripe to collect name and email
+      billing_address_collection: "required", // ✅ Collects address
+      success_url: "https://yourdomain.com/success",
+      cancel_url: "https://yourdomain.com/cancel",
+      metadata: {
+        note: "Thank you for purchasing from us!",
+        userId: userId,
+      },
+    });
+
+    // Save order
+    user.orders.push({
+      products: user.cart.length,
+      orderId: session.id,
+      totalAmount: totalSum,
+    });
+
+    // Clear cart
+    user.cart = [];
+    await user.save();
+
+    res.json({ paymentUrl: session.url, paymentId: session.id });
+  } catch (error) {
+    console.error("Stripe payment error:", error);
+    res.status(500).json({
+      status: "failure",
+      message: "Payment failed",
+      error: error.message,
+    });
+  }
 };
 
 

@@ -3,7 +3,7 @@ import Button from "../Shared/Button";
 const ProductCard = ({ data }) => {
   return (
     <div className="mb-10 mt-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 place-items-center ml-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 place-items-center ml-12">
         {/* card section */}
         {data.map((data) => (
           <div key={data.id} className="p-5 bg-white shadow-lg rounded-lg transform transition-transform hover:scale-105 duration-300">
@@ -12,15 +12,11 @@ const ProductCard = ({ data }) => {
                 data-aos="zoom-in"
                 src={data.img}
                 alt=""
-                className="h-[180px] w-[260px] object-cover rounded-md group-hover:opacity-75 transition-opacity duration-300"
+                className="h-[180px] w-[260px] object-cover rounded-md group-hover:opacity-100 transition-opacity duration-300"
               />
               {/* hover button */}
-              <div className="hidden group-hover:flex absolute inset-0 bg-black bg-opacity-50 text-center justify-center items-center duration-200 rounded-md">
-                <Button
-                  text={"Add to cart"}
-                  bgColor={"bg-primary"}
-                  textColor={"text-white"}
-                />
+              <div className="hidden group-hover:flex absolute inset-0 bg-black bg-opacity-10 text-center justify-center items-center duration-200 rounded-md">
+               
               </div>
             </div>
             <div className="leading-7 mt-4 ml-2 flex justify-between items-center">

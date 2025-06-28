@@ -12,16 +12,16 @@ function AdminProduct() {
       const responseData = response.data;
       setState(responseData.data);
     } catch (error) {
-      console.error("Error fetching customer data:", error);
+      console.error("Error fetching product data:", error);
     }
   };
 
   const deleteData = async (id) => {
     try {
       await Axios.delete(`/api/admin/products/${id}`);
-      getProductsData();
+      getProductsData(); // refresh product list
     } catch (error) {
-      console.error("Error deleting customer data:", error);
+      console.error("Error deleting product:", error);
     }
   };
 
@@ -52,6 +52,7 @@ function AdminProduct() {
               <th className="py-2 px-4 text-left">Image</th>
               <th className="py-2 px-4 text-left">Price</th>
               <th className="py-2 px-4 text-left">Category</th>
+              <th className="py-2 px-4 text-left">Subcategory</th> {/* ✅ Added */}
               <th className="py-2 px-4 text-left">Description</th>
               <th className="py-2 px-4 text-left">Actions</th>
             </tr>
@@ -69,8 +70,9 @@ function AdminProduct() {
                       alt="Product"
                     />
                   </td>
-                  <td className="py-2 px-4">{post.price}</td>
+                  <td className="py-2 px-4">₹{post.price}</td>
                   <td className="py-2 px-4">{post.category}</td>
+                  <td className="py-2 px-4">{post.subcategory || "-"}</td> {/* ✅ Show subcategory */}
                   <td className="py-2 px-4">{post.description}</td>
                   <td className="py-2 px-4">
                     <div className="flex space-x-2">
@@ -92,7 +94,7 @@ function AdminProduct() {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="py-4 text-center text-gray-500">
+                <td colSpan="8" className="py-4 text-center text-gray-500">
                   No products available
                 </td>
               </tr>

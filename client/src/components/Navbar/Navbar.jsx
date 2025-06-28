@@ -21,19 +21,19 @@ function classNames(...classes) {
 export default function Navbar() {
   const { setSearchResults } = useSearchContext();
   const [searchTerm, setSearchTerm] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-
     const token = localStorage.getItem("userId");
-    setIsLoggedIn(!!token); 
+    setIsLoggedIn(!!token);
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
-    navigate("/login"); }
+    navigate("/login");
+  };
 
   const handleSearch = async () => {
     if (!searchTerm) return;
@@ -41,12 +41,15 @@ export default function Navbar() {
       const response = await axios.get(
         `http://localhost:3002/api/stock/${searchTerm}`
       );
+console.log(response.data);
 
       setSearchResults(response.data);
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
   };
+
+
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -157,7 +160,6 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                        
                             onClick={
                               isLoggedIn
                                 ? handleLogout

@@ -1,14 +1,16 @@
 const Productschema = require("../models/Productschema");
 
 const createProduct = async (req, res) => {
-  const { title, description, price, image, category } = req.body;
-  const newProduct = await Productschema.create({
-    title,
-    description,
-    price,
-    image,
-    category,
-  });
+  const { title, description, price, image, category, subcategory } = req.body;
+
+    const newProduct = await Productschema.create({
+      title,
+      description,
+      price,
+      image,
+      category,
+      subcategory, 
+    });
 
   res.status(201).json({
     status: "success",

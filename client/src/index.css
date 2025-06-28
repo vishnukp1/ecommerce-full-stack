@@ -71,6 +71,7 @@ button:focus-visible {
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
   @font-face {
     font-family: "BeVietnamPro";
