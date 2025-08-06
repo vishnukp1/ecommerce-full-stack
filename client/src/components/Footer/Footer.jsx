@@ -1,4 +1,6 @@
-const Footer = () => {
+import { memo } from "react";
+
+const Footera = () => {
   return (
     <footer className="bg-white dark:bg-gray-900">
       <div className="mx-auto w-full max-w-screen-xl">
@@ -211,4 +213,6 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+const Footer = memo(Footera);
+
+export default Footer

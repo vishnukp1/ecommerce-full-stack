@@ -40,7 +40,7 @@ const BabyProducts = () => {
   return (
     <div className="bg-pink-50 min-h-screen">
       {/* Hero Banner */}
-      <section className="w-full bg-pink-50 text-center py-10 px-4 rounded-b-[1rem] shadow-md">
+      <section className="w-full bg-pink-50 text-center py-10  rounded-b-[1rem] shadow-md">
         <h1 className="text-4xl md:text-5xl font-bold text-pink-600 mb-4">
           Adorable Baby Outfits
         </h1>
@@ -79,7 +79,7 @@ const BabyProducts = () => {
       </div>
 
       {/* Products Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <section className=" mx-auto py-10">
         {dress.length > 0 ? (
           <ShoppingItems item={dress} />
         ) : (

@@ -46,7 +46,7 @@ const ShoppingItems = ({ item }) => {
 
   return (
     <div className="mb-10 pt-6 bg-slate-50">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 place-items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 place-items-center px-4 sm:px-16 lg:px-18">
         {/* Card Section */}
         {item?.map((data) => (
           <div key={data.id} className="p-4 bg-white shadow-lg rounded-lg">

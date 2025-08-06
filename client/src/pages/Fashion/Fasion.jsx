@@ -7,7 +7,10 @@ const Fasion = () => {
   return (
     <div>
       <HeroSection />
-      <ShoppingItems item={items} />
+   
+        <ShoppingItems item={items} />
+ 
+
       <Footer />
     </div>
   );

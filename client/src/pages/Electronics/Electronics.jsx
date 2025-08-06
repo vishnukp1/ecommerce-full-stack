@@ -60,8 +60,8 @@ const getCustomersData = async () => {
   const renderSection = (title, items) => {
     if (items.length === 0) return null;
     return (
-      <section className="mt-16">
-        <h3 className="text-2xl font-bold text-gray-800 mb-6">{title}</h3>
+      <section className="mt-16 -mx-14">
+        <h3 className="text-2xl font-bold text-gray-800 mb-6 ml-16">{title}</h3>
         <ShoppingItems item={items} />
       </section>
     );
@@ -102,7 +102,7 @@ const getCustomersData = async () => {
       </div>
 
       {/* Product Sections with Banners */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto  px-4 sm:px-6 lg:px-1 py-8">
         {phones.length + earphones.length + laptops.length > 0 ? (
           <>
             {renderSection("Smartphones", phones)}

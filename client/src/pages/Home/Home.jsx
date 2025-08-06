@@ -1,11 +1,12 @@
 import Footer from "../../components/Footer/Footer";
-import MainCarousel from "../../components/MainCarousel/MainCarousel";
+import React from "react";
+const MainCarousel = React.lazy(() => import("../../components/MainCarousel/MainCarousel"));
 import Productss from "../../components/NewItems/Products";
 import Products from "../../components/Products/Products";
 import CarouselItem from "../../components/Carousel/CarouselItem";
 import AOS from "aos";
-import React from "react";
 import "aos/dist/aos.css";
+
 
 const Home = () => {
   React.useEffect(() => {
