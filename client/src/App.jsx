@@ -40,8 +40,8 @@ function App() {
         <Route exact path="/babyproducts" element={<BabyProducts />} />
            <Route path="/productdetails" element={<ProductDetail />} />
         <Route element={<Admin />}>
-          <Route path="/adminpage/adminedit/:id" element={<AdminEdit />} />
-          <Route path="/adminpage/adminproduct" element={<AdminProduct />} />
+       
+       
           <Route path="/adminpage/adminuser" element={<AdminUser />} />
           <Route path="/adminpage/edit-user/:id" element={<EditUser />} />
           <Route path="/adminpage/addproduct" element={<AdminAddproducts />} />
