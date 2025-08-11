@@ -20,7 +20,7 @@ app.use(express.json());
 
 mongoose
 
-  .connect(" mongodb://127.0.0.1:27017/productCart", {
+  .connect("mongodb://127.0.0.1:27017/productCart", {
     useNewUrlParser: true,
 
     useUnifiedTopology: true,
